@@ -13,6 +13,7 @@ class WishlistTable extends StatefulWidget {
 
 class _WishlistTableState extends State<WishlistTable> {
   String order = 'name';
+  bool descending = false;
   Future<void> _showUpdateWishlistItemAlertDialog(String documentId) async {
     return showDialog(
         context: context,
@@ -28,7 +29,7 @@ class _WishlistTableState extends State<WishlistTable> {
     final Stream<QuerySnapshot> _wishlistItemsStream = FirebaseFirestore
         .instance
         .collection('wishlistItems')
-        .orderBy(order, descending: false)
+        .orderBy(order, descending: descending)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
       stream: _wishlistItemsStream,
@@ -51,6 +52,7 @@ class _WishlistTableState extends State<WishlistTable> {
               onSort: (columnIndex, ascending) {
                 setState(() {
                   order = 'name';
+                  descending = !descending;
                 });
               },
               label: Text(
@@ -62,6 +64,7 @@ class _WishlistTableState extends State<WishlistTable> {
               onSort: (columnIndex, ascending) {
                 setState(() {
                   order = 'cost';
+                  descending = !descending;
                 });
               },
               numeric: true,
@@ -74,6 +77,7 @@ class _WishlistTableState extends State<WishlistTable> {
               onSort: (columnIndex, ascending) {
                 setState(() {
                   order = 'priority';
+                  descending = !descending;
                 });
               },
               numeric: true,
@@ -86,6 +90,7 @@ class _WishlistTableState extends State<WishlistTable> {
               onSort: (columnIndex, ascending) {
                 setState(() {
                   order = 'date';
+                  descending = !descending;
                 });
               },
               numeric: true,
