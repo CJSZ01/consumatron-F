@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:consumatron/common/enums.dart';
 import 'package:flutter/material.dart';
 
 import 'UpdateWishlistItemDialog.dart';
@@ -11,11 +12,7 @@ class WishlistTable extends StatefulWidget {
 }
 
 class _WishlistTableState extends State<WishlistTable> {
-  final Stream<QuerySnapshot> _wishlistItemsStream = FirebaseFirestore.instance
-      .collection('wishlistItems')
-      .orderBy('name', descending: false)
-      .snapshots();
-
+  String order = 'name';
   Future<void> _showUpdateWishlistItemAlertDialog(String documentId) async {
     return showDialog(
         context: context,
@@ -28,6 +25,11 @@ class _WishlistTableState extends State<WishlistTable> {
 
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _wishlistItemsStream = FirebaseFirestore
+        .instance
+        .collection('wishlistItems')
+        .orderBy(order, descending: false)
+        .snapshots();
     return StreamBuilder<QuerySnapshot>(
       stream: _wishlistItemsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -47,7 +49,9 @@ class _WishlistTableState extends State<WishlistTable> {
           columns: [
             DataColumn(
               onSort: (columnIndex, ascending) {
-                setState(() {});
+                setState(() {
+                  order = 'name';
+                });
               },
               label: Text(
                 'name',
@@ -55,6 +59,11 @@ class _WishlistTableState extends State<WishlistTable> {
               ),
             ),
             DataColumn(
+              onSort: (columnIndex, ascending) {
+                setState(() {
+                  order = 'cost';
+                });
+              },
               numeric: true,
               label: Text(
                 'cost',
@@ -62,6 +71,11 @@ class _WishlistTableState extends State<WishlistTable> {
               ),
             ),
             DataColumn(
+              onSort: (columnIndex, ascending) {
+                setState(() {
+                  order = 'priority';
+                });
+              },
               numeric: true,
               label: Text(
                 'priority',
@@ -69,6 +83,11 @@ class _WishlistTableState extends State<WishlistTable> {
               ),
             ),
             DataColumn(
+              onSort: (columnIndex, ascending) {
+                setState(() {
+                  order = 'date';
+                });
+              },
               numeric: true,
               label: Text(
                 'date added',

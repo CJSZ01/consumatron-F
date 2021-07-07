@@ -1,4 +1,3 @@
-import 'package:consumatron/models/WishlistItem.dart';
 import 'package:consumatron/pages/wishlist/screens/components/AddWishlistItemDialog.dart';
 import 'package:consumatron/pages/wishlist/screens/components/WishlistTable.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +13,6 @@ class WishlistPageStartScreen extends StatefulWidget {
 
 class _WishlistPageStartScreenState extends State<WishlistPageStartScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  final moviesRef = FirebaseFirestore.instance
-      .collection('movies')
-      .withConverter<WishlistItem>(
-        fromFirestore: (snapshot, _) => WishlistItem.fromJson(snapshot.data()!),
-        toFirestore: (movie, _) => movie.toJson(),
-      );
 
   Future<void> _showAddWishlistItemAlertDialog() async {
     return showDialog(
