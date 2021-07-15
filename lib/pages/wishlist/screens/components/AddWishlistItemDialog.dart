@@ -11,18 +11,9 @@ class AddWishlistItemDialog extends StatefulWidget {
 class _AddWishlistItemDialogState extends State<AddWishlistItemDialog> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 512, vertical: 300),
-      child: Material(
-        color: Colors.transparent,
-        child: Container(
-          padding: const EdgeInsets.all(32.0),
-          decoration: BoxDecoration(
-              color: Colors.green,
-              border: Border.all(color: Colors.black, width: 8)),
-          child: AddWishlistItemForm(),
-        ),
-      ),
+    return AlertDialog(
+      content: AddWishlistItemForm(),
+      backgroundColor: Colors.green,
     );
   }
 }

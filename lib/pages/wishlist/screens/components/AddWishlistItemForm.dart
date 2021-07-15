@@ -28,6 +28,7 @@ class _AddWishlistItemFormState extends State<AddWishlistItemForm> {
     return Form(
       key: _formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
             maxLength: 128,
