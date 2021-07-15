@@ -1,5 +1,6 @@
-import 'package:consumatron/pages/wishlist/screens/components/AddWishlistItemForm.dart';
 import 'package:flutter/material.dart';
+
+import 'AddWishlistItemForm.dart';
 
 class AddWishlistItemDialog extends StatefulWidget {
   const AddWishlistItemDialog({Key? key}) : super(key: key);

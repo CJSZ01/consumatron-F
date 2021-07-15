@@ -1,6 +1,10 @@
+import 'package:consumatron/pages/login/screens/LoginPageMainScreen.dart';
 import 'package:consumatron/pages/wishlist/screens/WishlistPageMainScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+//TODO: Implement Themes
 
 void main() {
   runApp(ConsumatronApp());
@@ -8,6 +12,24 @@ void main() {
 
 class ConsumatronApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  authentication() {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data!.providerData.length == 1) {
+            return WishlistPageStartScreen();
+          }
+        } else {
+          return LoginPageMainScreen();
+        }
+        return LoginPageMainScreen();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -21,33 +43,33 @@ class ConsumatronApp extends StatelessWidget {
 
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
-            title: 'Consumatron',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green),
-              buttonTheme: ButtonThemeData(),
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.black87),
-                  foregroundColor:
-                      MaterialStateProperty.all(Colors.green.shade800),
-                  textStyle: MaterialStateProperty.all(TextStyle(
-                      color: Colors.green.shade800, fontFamily: 'Gugi')),
-                  shape: MaterialStateProperty.all(
-                    BeveledRectangleBorder(borderRadius: BorderRadius.zero),
+              title: 'Consumatron',
+              theme: ThemeData(
+                colorScheme:
+                    ColorScheme.fromSwatch(primarySwatch: Colors.green),
+                buttonTheme: ButtonThemeData(),
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black87),
+                    foregroundColor:
+                        MaterialStateProperty.all(Colors.green.shade800),
+                    textStyle: MaterialStateProperty.all(TextStyle(
+                        color: Colors.green.shade800, fontFamily: 'Gugi')),
+                    shape: MaterialStateProperty.all(
+                      BeveledRectangleBorder(borderRadius: BorderRadius.zero),
+                    ),
                   ),
                 ),
+                fontFamily: 'Gugi',
+                textTheme: TextTheme(
+                  headline3: TextStyle(
+                      color: Colors.green.shade800, fontFamily: 'Gugi'),
+                  bodyText2: TextStyle(
+                      color: Colors.green.shade800, fontFamily: 'Gugi'),
+                ),
+                primarySwatch: Colors.green,
               ),
-              fontFamily: 'Gugi',
-              textTheme: TextTheme(
-                headline3:
-                    TextStyle(color: Colors.green.shade800, fontFamily: 'Gugi'),
-                bodyText2:
-                    TextStyle(color: Colors.green.shade800, fontFamily: 'Gugi'),
-              ),
-              primarySwatch: Colors.green,
-            ),
-            home: WishlistPageStartScreen(),
-          );
+              home: authentication());
         }
 
         return CircularProgressIndicator();

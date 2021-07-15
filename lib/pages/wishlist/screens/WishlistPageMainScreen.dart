@@ -1,5 +1,5 @@
-import 'package:consumatron/pages/wishlist/screens/components/AddWishlistItemDialog.dart';
-import 'package:consumatron/pages/wishlist/screens/components/WishlistTable.dart';
+import 'package:consumatron/pages/wishlist/components/AddWishlistItemDialog.dart';
+import 'package:consumatron/pages/wishlist/components/WishlistTable.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -24,23 +24,27 @@ class _WishlistPageStartScreenState extends State<WishlistPageStartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.black87,
-      child: Container(
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      appBar: AppBar(
+        backgroundColor: Colors.black87,
+        actions: [
+          Padding(padding: EdgeInsets.only(left: 32)),
+          TextButton(
+              onPressed: () {
+                _showAddWishlistItemAlertDialog();
+              },
+              child: Text(
+                'New Wishlit Item',
+                style: Theme.of(context).textTheme.bodyText2,
+              )),
+          Spacer(),
+        ],
+      ),
+      body: Container(
         padding: EdgeInsets.all(32),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: TextButton(
-                  onPressed: () {
-                    _showAddWishlistItemAlertDialog();
-                  },
-                  child: Text(
-                    'New Wishlit Item',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  )),
-            ),
             Container(child: WishlistTable()),
           ],
         ),
