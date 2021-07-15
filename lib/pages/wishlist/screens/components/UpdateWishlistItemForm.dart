@@ -62,81 +62,84 @@ class _UpdateWishlistItemFormState extends State<UpdateWishlistItemForm> {
       future: getWishlistItem(),
       builder: (context, snapshot) {
         print(newWishlistItem.name);
-        return Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: TextEditingController.fromValue(
-                  TextEditingValue(text: newWishlistItem.name),
+        return Container(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: TextEditingController.fromValue(
+                    TextEditingValue(text: newWishlistItem.name),
+                  ),
+                  maxLength: 128,
+                  // decoration: InputDecoration(hintText: 'Name'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Insert item name.';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) => newWishlistItem.name = value,
                 ),
-                maxLength: 128,
-                // decoration: InputDecoration(hintText: 'Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Insert item name.';
-                  }
-                  return null;
-                },
-                onChanged: (value) => newWishlistItem.name = value,
-              ),
-              TextFormField(
-                controller: TextEditingController.fromValue(
-                  TextEditingValue(text: newWishlistItem.priority),
+                TextFormField(
+                  controller: TextEditingController.fromValue(
+                    TextEditingValue(text: newWishlistItem.priority),
+                  ),
+                  maxLength: 2,
+                  decoration: InputDecoration(hintText: 'Priority'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Insert item priority.';
+                    } else if (!numericRegex.hasMatch(value)) {
+                      return 'Insert only numbers';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) => newWishlistItem.priority = value,
                 ),
-                maxLength: 2,
-                decoration: InputDecoration(hintText: 'Priority'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Insert item priority.';
-                  } else if (!numericRegex.hasMatch(value)) {
-                    return 'Insert only numbers';
-                  }
-                  return null;
-                },
-                onChanged: (value) => newWishlistItem.priority = value,
-              ),
-              TextFormField(
-                controller: TextEditingController.fromValue(
-                  TextEditingValue(text: newWishlistItem.cost),
+                TextFormField(
+                  controller: TextEditingController.fromValue(
+                    TextEditingValue(text: newWishlistItem.cost),
+                  ),
+                  maxLength: 8,
+                  decoration: InputDecoration(hintText: 'Cost'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Insert item cost.';
+                    } else if (!numericRegex.hasMatch(value)) {
+                      return 'Insert only numbers';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) => newWishlistItem.cost = value,
                 ),
-                maxLength: 8,
-                decoration: InputDecoration(hintText: 'Cost'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Insert item cost.';
-                  } else if (!numericRegex.hasMatch(value)) {
-                    return 'Insert only numbers';
-                  }
-                  return null;
-                },
-                onChanged: (value) => newWishlistItem.cost = value,
-              ),
-              Padding(padding: EdgeInsets.all(16)),
-              Row(
-                children: [
-                  ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          updateWishlistItem();
-                        }
-                      },
-                      child: Text('Submit')),
-                  Spacer(),
-                  ElevatedButton(
-                      onPressed: () {
-                        removeWishlistItem();
-                      },
-                      child: Text('Remove')),
-                  Spacer(),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Cancel')),
-                ],
-              ),
-            ],
+                Padding(padding: EdgeInsets.all(16)),
+                Row(
+                  children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            updateWishlistItem();
+                          }
+                        },
+                        child: Text('Submit')),
+                    Spacer(),
+                    ElevatedButton(
+                        onPressed: () {
+                          removeWishlistItem();
+                        },
+                        child: Text('Remove')),
+                    Spacer(),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancel')),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
