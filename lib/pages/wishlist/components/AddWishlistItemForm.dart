@@ -19,8 +19,12 @@ class _AddWishlistItemFormState extends State<AddWishlistItemForm> {
         toFirestore: (wishlistItem, _) => wishlistItem.toJson(),
       );
 
-  WishlistItem newWishlistItem =
-      new WishlistItem(cost: '', name: '', priority: '', date: Timestamp.now());
+  WishlistItem newWishlistItem = new WishlistItem(
+      cost: '',
+      name: '',
+      priority: '',
+      date: Timestamp.now(),
+      isArchived: false);
 
   final _formKey = GlobalKey<FormState>();
   @override

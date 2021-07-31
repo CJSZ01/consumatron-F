@@ -14,8 +14,12 @@ class UpdateWishlistItemForm extends StatefulWidget {
 class _UpdateWishlistItemFormState extends State<UpdateWishlistItemForm> {
   final numericRegex = RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
 
-  WishlistItem newWishlistItem =
-      WishlistItem(cost: '', name: '', priority: '', date: Timestamp.now());
+  WishlistItem newWishlistItem = WishlistItem(
+      cost: '',
+      name: '',
+      priority: '',
+      date: Timestamp.now(),
+      isArchived: false);
 
   final wishlistItemsRef = FirebaseFirestore.instance
       .collection('wishlistItems')
@@ -48,6 +52,8 @@ class _UpdateWishlistItemFormState extends State<UpdateWishlistItemForm> {
         .get()
         .then((snapshot) => newWishlistItem = snapshot.data()!);
   }
+
+  void archive() {}
 
   @override
   void initState() {
@@ -124,6 +130,12 @@ class _UpdateWishlistItemFormState extends State<UpdateWishlistItemForm> {
                           }
                         },
                         child: Text('Submit')),
+                    Spacer(),
+                    ElevatedButton(
+                        onPressed: () async {
+                          archive();
+                        },
+                        child: Text('Archive')),
                     Spacer(),
                     ElevatedButton(
                         onPressed: () {

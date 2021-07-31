@@ -1,6 +1,7 @@
 import 'package:consumatron/pages/login/screens/LoginPageMainScreen.dart';
 import 'package:consumatron/pages/wishlist/screens/WishlistPageMainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,6 +16,12 @@ class ConsumatronApp extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   authentication() {
+    if (kReleaseMode) {
+      auth.setPersistence(Persistence.SESSION);
+    } else {
+      auth.setPersistence(Persistence.NONE);
+    }
+
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
