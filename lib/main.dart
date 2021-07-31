@@ -25,14 +25,18 @@ class ConsumatronApp extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.providerData.length == 1) {
-            return WishlistPageStartScreen();
+        if (kReleaseMode) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.providerData.length == 1) {
+              return WishlistPageStartScreen();
+            }
+          } else {
+            return LoginPageMainScreen();
           }
-        } else {
           return LoginPageMainScreen();
+        } else {
+          return WishlistPageStartScreen();
         }
-        return LoginPageMainScreen();
       },
     );
   }
