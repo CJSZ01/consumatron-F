@@ -1,23 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:consumatron/pages/wishlist/components/UpdateWishlistItemDialog.dart';
 
 import 'package:flutter/material.dart';
 
-class WishlistTable extends StatefulWidget {
-  const WishlistTable({Key? key}) : super(key: key);
+import 'UpdateArchivedItemDialog.dart';
+
+class ArchivedItemsTable extends StatefulWidget {
+  const ArchivedItemsTable({Key? key}) : super(key: key);
 
   @override
-  _WishlistTableState createState() => _WishlistTableState();
+  _ArchivedItemsTableState createState() => _ArchivedItemsTableState();
 }
 
-class _WishlistTableState extends State<WishlistTable> {
+class _ArchivedItemsTableState extends State<ArchivedItemsTable> {
   String order = 'name';
   bool descending = false;
-  Future<void> _showUpdateWishlistItemAlertDialog(String documentId) async {
+
+  Future<void> _showUpdateArchivedItemAlertDialog(String documentId) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return UpdateWishlistItemDialog(
+          return UpdateArchivedItemDialog(
             documentId: documentId,
           );
         });
@@ -25,13 +27,13 @@ class _WishlistTableState extends State<WishlistTable> {
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _wishlistItemsStream = FirebaseFirestore
+    final Stream<QuerySnapshot> _archivedItemsStream = FirebaseFirestore
         .instance
-        .collection('wishlistItems')
+        .collection('archivedItems')
         .orderBy(order, descending: descending)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
-      stream: _wishlistItemsStream,
+      stream: _archivedItemsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
@@ -137,7 +139,7 @@ class _WishlistTableState extends State<WishlistTable> {
                     if (value!) {
                       //Why does this work???
 
-                      _showUpdateWishlistItemAlertDialog(documents.id);
+                      _showUpdateArchivedItemAlertDialog(documents.id);
                     }
                   },
                 );

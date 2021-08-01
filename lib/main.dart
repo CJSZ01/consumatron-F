@@ -1,3 +1,4 @@
+import 'package:consumatron/pages/archived/screens/ArchivedItemsPageMainScreen.dart';
 import 'package:consumatron/pages/login/screens/LoginPageMainScreen.dart';
 import 'package:consumatron/pages/wishlist/screens/WishlistPageMainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,6 +81,12 @@ class ConsumatronApp extends StatelessWidget {
                 ),
                 primarySwatch: Colors.green,
               ),
+              routes: {
+                // '/': (context) => const LoginPageMainScreen(),
+                'wishlistPage': (context) => const WishlistPageStartScreen(),
+                'archivedItemsPage': (context) =>
+                    const ArchivedItemsPageStartScreen(),
+              },
               home: authentication());
         }
 

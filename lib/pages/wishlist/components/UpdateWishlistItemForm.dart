@@ -22,6 +22,13 @@ class _UpdateWishlistItemFormState extends State<UpdateWishlistItemForm> {
         toFirestore: (wishlistItem, _) => wishlistItem.toJson(),
       );
 
+  final archivedItemsRef = FirebaseFirestore.instance
+      .collection('archivedItems')
+      .withConverter<WishlistItem>(
+        fromFirestore: (snapshot, _) => WishlistItem.fromJson(snapshot.data()!),
+        toFirestore: (wishlistItem, _) => wishlistItem.toJson(),
+      );
+
   Future<void> updateWishlistItem() {
     Navigator.pop(context);
     return wishlistItemsRef
@@ -47,15 +54,10 @@ class _UpdateWishlistItemFormState extends State<UpdateWishlistItemForm> {
     });
   }
 
-  void archive() {}
+  Future<void> archiveWishlistItem() async {
+    await archivedItemsRef.add(newWishlistItem!);
 
-  @override
-  void initState() {
-    super.initState();
-
-    getWishlistItem().whenComplete(() {
-      setState(() {});
-    });
+    await removeWishlistItem();
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -132,15 +134,9 @@ class _UpdateWishlistItemFormState extends State<UpdateWishlistItemForm> {
                       Spacer(),
                       ElevatedButton(
                           onPressed: () async {
-                            archive();
+                            await archiveWishlistItem();
                           },
                           child: Text('Archive')),
-                      Spacer(),
-                      ElevatedButton(
-                          onPressed: () {
-                            removeWishlistItem();
-                          },
-                          child: Text('Remove')),
                       Spacer(),
                       ElevatedButton(
                           onPressed: () {
@@ -156,7 +152,9 @@ class _UpdateWishlistItemFormState extends State<UpdateWishlistItemForm> {
         } else if (snapshot.hasError) {
           return Text('A problem has ocurred.');
         }
-        return LinearProgressIndicator();
+        return LinearProgressIndicator(
+          color: Colors.black,
+        );
       },
     );
   }

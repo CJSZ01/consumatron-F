@@ -38,6 +38,15 @@ class _WishlistPageStartScreenState extends State<WishlistPageStartScreen> {
                 'New Wishlit Item',
                 style: Theme.of(context).textTheme.bodyText2,
               )),
+          Padding(padding: EdgeInsets.all(16)),
+          TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'archivedItemsPage');
+              },
+              child: Text(
+                'Archived Items',
+                style: Theme.of(context).textTheme.bodyText2,
+              )),
           Spacer(),
         ],
       ),
